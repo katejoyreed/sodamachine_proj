@@ -26,7 +26,7 @@ namespace SodaMachine
         //When all is said and done this method will return a list of coin objects that the customer will use a payment for their soda.
         public List<Coin> GatherCoinsFromWallet(Can selectedCan)
         {
-          
+            
         }
         //Returns a coin object from the wallet based on the name passed into it.
         //Returns null if no coin can be found
@@ -42,7 +42,7 @@ namespace SodaMachine
         //Takes in a can object to add to the customers backpack.
         public void AddCanToBackpack(Can purchasedCan)
         {
-            
+            Backpack.cans.Add(purchasedCan);
         }
     }
 }
