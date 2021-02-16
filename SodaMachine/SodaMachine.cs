@@ -26,6 +26,22 @@ namespace SodaMachine
         //A method to fill the sodamachines register with coin objects.
         public void FillRegister()
         {
+            while (_register.Count < 20)
+            {
+                _register.Add(new Quarter());
+            }
+            while (_register.Count < 30)
+            {
+                _register.Add(new Dime());
+            }
+            while (_register.Count < 50)
+            {
+                _register.Add(new Nickel());
+            }
+            while (_register.Count < 100)
+            {
+                _register.Add(new Penny());
+            }
            
         }
         //A method to fill the sodamachines inventory with soda can objects.

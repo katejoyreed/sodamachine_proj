@@ -24,15 +24,15 @@ namespace SodaMachine
             {
                 Coins.Add(new Quarter());
             }
-            while (Coins.Count < 24)
+            while (Coins.Count < 25)
             {
                 Coins.Add(new Dime());
             }
-            while (Coins.Count < 33)
+            while (Coins.Count < 34)
             {
                 Coins.Add(new Nickel());
             }
-            while (Coins.Count < 43)
+            while (Coins.Count < 44)
             {
                 Coins.Add(new Penny());
             }
