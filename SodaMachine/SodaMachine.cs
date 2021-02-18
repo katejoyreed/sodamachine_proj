@@ -83,12 +83,13 @@ namespace SodaMachine
         private Can GetSodaFromInventory(string nameOfSoda)
         {
             nameOfSoda = UserInterface.SodaSelection(_inventory);
-            foreach (var Can in _inventory)
+            foreach (Can Can in _inventory)
             {
                 if (nameOfSoda.Equals(Can.Name))
                 {
                     return Can;
                 }
+                
                
             }
         }
@@ -102,7 +103,36 @@ namespace SodaMachine
         //If the payment does not meet the cost of the soda: despense payment back to the customer.
         private void CalculateTransaction(List<Coin> payment, Can chosenSoda, Customer customer)
         {
-           
+            double totalValue = TotalCoinValue(payment);
+            
+            if (totalValue >= chosenSoda.Price)
+            {
+                double difference = DetermineChange(totalValue, chosenSoda.Price);
+
+                double registerValue = 0;
+                foreach (Coin coin in _register)
+                {
+                    registerValue += coin.Value;
+                }
+                if (difference <= registerValue)
+                {
+                    DepositCoinsIntoRegister(payment);
+                    GetSodaFromInventory(chosenSoda.Name);
+                    GatherChange(difference);
+                    UserInterface.EndMessage(chosenSoda.Name, difference);
+                }
+                else if (difference > registerValue)
+                {
+                    Console.WriteLine("Not enough change in machine to complete transaction");
+                    Console.WriteLine("Please make another selection");
+                }
+            }
+            else
+            {
+                Console.WriteLine("You do not have the correct amount of change for this transaction");
+            }
+
+
         }
         //Takes in the value of the amount of change needed.
         //Attempts to gather all the required coins from the sodamachine's register to make change.
@@ -127,17 +157,23 @@ namespace SodaMachine
         //Takes in the total payment amount and the price of can to return the change amount.
         private double DetermineChange(double totalPayment, double canPrice)
         {
-            
+            double change = totalPayment - canPrice;
+            return change;
         }
         //Takes in a list of coins to returnt he total value of the coins as a double.
         private double TotalCoinValue(List<Coin> payment)
         {
-           
+            double totalValue = 0;
+            foreach (Coin coin in payment)
+            {
+                totalValue += coin.Value;
+            }
+            return totalValue;
         }
         //Puts a list of coins into the soda machines register.
         private void DepositCoinsIntoRegister(List<Coin> coins)
         {
-           
+            _register.AddRange(coins);
         }
     }
 }
