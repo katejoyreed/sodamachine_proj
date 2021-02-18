@@ -39,9 +39,6 @@ namespace SodaMachine
             
 
         }
-        public double GetTotal()
-        {
-            
-        }
+        
     }
 }

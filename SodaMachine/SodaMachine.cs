@@ -118,7 +118,9 @@ namespace SodaMachine
                 {
                     DepositCoinsIntoRegister(payment);
                     GetSodaFromInventory(chosenSoda.Name);
-                    GatherChange(difference);
+                    List<Coin> change = GatherChange(difference);
+                    customer.AddCoinsIntoWallet(change);
+                    customer.AddCanToBackpack(chosenSoda);
                     UserInterface.EndMessage(chosenSoda.Name, difference);
                 }
                 else if (difference > registerValue)
@@ -146,13 +148,34 @@ namespace SodaMachine
         //If it does have one, return true.  Else, false.
         private bool RegisterHasCoin(string name)
         {
-           
+            if (_register.Count > 0)
+            {
+                foreach (Coin coin in _register)
+                {
+                    if (name == coin.Name)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+            
         }
         //Reusable method to return a coin from the register.
         //Returns null if no coin can be found of that name.
         private Coin GetCoinFromRegister(string name)
         {
-            
+            if (RegisterHasCoin(name) == true)
+            {
+                
+            }
         }
         //Takes in the total payment amount and the price of can to return the change amount.
         private double DetermineChange(double totalPayment, double canPrice)
