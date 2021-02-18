@@ -82,7 +82,15 @@ namespace SodaMachine
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
         {
-          
+            nameOfSoda = UserInterface.SodaSelection(_inventory);
+            foreach (var Can in _inventory)
+            {
+                if (nameOfSoda.Equals(Can.Name))
+                {
+                    return Can;
+                }
+               
+            }
         }
 
         //This is the main method for calculating the result of the transaction.
