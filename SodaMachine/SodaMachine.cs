@@ -139,39 +139,43 @@ namespace SodaMachine
         private List<Coin> GatherChange(double changeValue, double totalPayment, double canPrice)
         {
             List<Coin> change = new List<Coin>();
-            string name = "";
             double changeDue = DetermineChange(totalPayment, canPrice);
-            
+            changeValue = 0;
             
             while (changeValue < changeDue)
             {
-                if (name == "Quarter")
+                
+                while (changeDue >= 0.25)
                 {
-                    Coin coinInRegister = GetCoinFromRegister(name);
+                    Coin coinInRegister = GetCoinFromRegister("Quarter");
                     change.Add(coinInRegister);
                     _register.Remove(coinInRegister);
                     changeValue += coinInRegister.Value;
+                    changeDue -= 0.25;
                 }
-                else if (name == "Dime")
+                while (changeDue >= 0.10)
                 {
-                    Coin coinInRegister = GetCoinFromRegister(name);
+                    Coin coinInRegister = GetCoinFromRegister("Dime");
                     change.Add(coinInRegister);
                     _register.Remove(coinInRegister);
                     changeValue += coinInRegister.Value;
+                    changeDue -= 0.10;
                 }
-                else if (name == "Nickel")
+                while (changeDue >= 0.05)
                 {
-                    Coin coinInRegister = GetCoinFromRegister(name);
+                    Coin coinInRegister = GetCoinFromRegister("Nickel");
                     change.Add(coinInRegister);
                     _register.Remove(coinInRegister);
                     changeValue += coinInRegister.Value;
+                    changeDue -= 0.05;
                 }
-                else if (name == "Penny")
+                while (changeDue >= 0.01)
                 {
-                    Coin coinInRegister = GetCoinFromRegister(name);
+                    Coin coinInRegister = GetCoinFromRegister("Penny");
                     change.Add(coinInRegister);
                     _register.Remove(coinInRegister);
                     changeValue += coinInRegister.Value;
+                    changeDue -= 0.01;
                 }
                 
             }
