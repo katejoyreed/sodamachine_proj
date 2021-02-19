@@ -110,7 +110,7 @@ namespace SodaMachine
                 {
                     registerValue += coin.Value;
                 }
-                if (difference <= registerValue)
+                if (difference <= registerValue && _inventory.Contains(chosenSoda))
                 {
                     DepositCoinsIntoRegister(payment);
                     GetSodaFromInventory(chosenSoda.Name);
@@ -123,11 +123,18 @@ namespace SodaMachine
                 {
                     Console.WriteLine("Not enough change in machine to complete transaction");
                     Console.WriteLine("Please make another selection");
+                    customer.AddCoinsIntoWallet(payment);
+                }
+                else if (!_inventory.Contains(chosenSoda))
+                {
+                    Console.WriteLine("Not enough " + chosenSoda.Name + " in inventory to complete transaction");
+                    customer.AddCoinsIntoWallet(payment);
                 }
             }
             else
             {
                 Console.WriteLine("You do not have the correct amount of change for this transaction");
+                customer.AddCoinsIntoWallet(payment);
             }
 
 
@@ -140,8 +147,9 @@ namespace SodaMachine
         {
             List<Coin> change = new List<Coin>();
             double changeDue = DetermineChange(totalPayment, canPrice);
+            double totalRegisterValue = TotalRegisterValue(_register);
             changeValue = 0;
-            
+
             while (changeValue < changeDue)
             {
                 
@@ -177,9 +185,14 @@ namespace SodaMachine
                     changeValue += coinInRegister.Value;
                     changeDue -= 0.01;
                 }
+                if (changeDue > totalRegisterValue)
+                {
+                    return null;
+                }
                 
             }
             return change;
+            
             
         }
         //Reusable method to check if the register has a coin of that name.
@@ -226,5 +239,14 @@ namespace SodaMachine
         {
             _register.AddRange(coins);
         }
+        private double TotalRegisterValue(List<Coin> _register)
+        {
+            double totalRegisterValue = 0;
+            foreach (Coin coin in _register)
+            {
+                totalRegisterValue += coin.Value;
+            }
+            return totalRegisterValue;
+        }   
     }
 }
