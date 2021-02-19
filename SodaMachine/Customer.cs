@@ -28,16 +28,17 @@ namespace SodaMachine
         {
             List<Coin> payment = new List<Coin>();
             string coinName = UserInterface.CoinSelection(selectedCan, Wallet.Coins);
-            
             double totalValue = 0;
-            foreach (Coin coin in payment)
-            {
-                totalValue += coin.Value;
-            }
+
+            
             while (totalValue < selectedCan.Price)
             {
                 Coin selectedCoin = GetCoinFromWallet(coinName);
                 payment.Add(selectedCoin);
+                Wallet.Coins.Remove(selectedCoin);
+                totalValue += selectedCoin.Value;
+                UserInterface.CoinSelection(selectedCan, Wallet.Coins);
+
             }
             
             return payment;

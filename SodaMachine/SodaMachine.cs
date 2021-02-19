@@ -77,7 +77,11 @@ namespace SodaMachine
         //pass payment to the calculate transaction method to finish up the transaction based on the results.
         private void Transaction(Customer customer)
         {
-           
+            
+            string selectedSoda = UserInterface.SodaSelection(_inventory);
+            Can chosenSoda = GetSodaFromInventory(selectedSoda);
+            List<Coin> payment = customer.GatherCoinsFromWallet(chosenSoda);
+            CalculateTransaction(payment, chosenSoda, customer);
         }
         //Gets a soda from the inventory based on the name of the soda.
         private Can GetSodaFromInventory(string nameOfSoda)
@@ -138,31 +142,36 @@ namespace SodaMachine
             string name = "";
             double changeDue = DetermineChange(totalPayment, canPrice);
             
-            foreach (Coin coin in change)
-            {
-                changeValue += coin.Value;
-            }
+            
             while (changeValue < changeDue)
             {
                 if (name == "Quarter")
                 {
                     Coin coinInRegister = GetCoinFromRegister(name);
                     change.Add(coinInRegister);
+                    _register.Remove(coinInRegister);
+                    changeValue += coinInRegister.Value;
                 }
                 else if (name == "Dime")
                 {
                     Coin coinInRegister = GetCoinFromRegister(name);
                     change.Add(coinInRegister);
+                    _register.Remove(coinInRegister);
+                    changeValue += coinInRegister.Value;
                 }
                 else if (name == "Nickel")
                 {
                     Coin coinInRegister = GetCoinFromRegister(name);
                     change.Add(coinInRegister);
+                    _register.Remove(coinInRegister);
+                    changeValue += coinInRegister.Value;
                 }
                 else if (name == "Penny")
                 {
                     Coin coinInRegister = GetCoinFromRegister(name);
                     change.Add(coinInRegister);
+                    _register.Remove(coinInRegister);
+                    changeValue += coinInRegister.Value;
                 }
                 
             }
